@@ -1,0 +1,242 @@
+\documentclass{article}
+
+% If you're new to LaTeX, here's some short tutorials:
+% https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes
+% https://en.wikibooks.org/wiki/LaTeX/Basics
+
+% Formatting
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage[titletoc,title]{appendix}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{soul} %for underlining using ul
+\definecolor{green}{rgb}{0.0, 0.5, 0.0}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark}
+
+% Math
+% https://www.overleaf.com/learn/latex/Mathematical_expressions
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+
+% Images
+% https://www.overleaf.com/learn/latex/Inserting_Images
+% https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+\usepackage{graphicx,float}
+
+% Tables
+% https://www.overleaf.com/learn/latex/Tables
+% https://en.wikibooks.org/wiki/LaTeX/Tables
+
+% Algorithms
+% https://www.overleaf.com/learn/latex/algorithms
+% https://en.wikibooks.org/wiki/LaTeX/Algorithms
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{algorithmic}
+
+% Code syntax highlighting
+% https://www.overleaf.com/learn/latex/Code_Highlighting_with_minted
+% \usepackage{minted}
+% \usemintedstyle{borland}
+
+% References
+% https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX
+% https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
+\usepackage{biblatex}
+\addbibresource{references.bib}
+\usepackage{comment}
+\newcommand\tab{\hspace{1.5em}}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{claim}[theorem]{Claim}
+
+\usepackage{hyperref}
+\usepackage{dirtytalk}
+\usepackage{cancel}
+
+% Title content
+\title{%
+    CSE 240A: Principles of Computer Architecture\\
+    \large Midterm Examination\\
+    }
+%Put your name here
+\author{Mukund Varma T, PID: A59024626}
+\date{Winter 2024}
+
+\begin{document}
+
+\maketitle
+\begin{center}
+    \begin{tabular}{|c|c|@{\hspace{3em}}|}
+    \hline
+    1 & 8 \\
+    \hline
+    2 & 6 \\
+    \hline
+    3 & 8 \\
+    \hline
+    4 & 8 \\
+    \hline
+    5 & 15 \\
+    \hline
+    \textbf{Total} & \textbf{45} \\
+    \hline
+\end{tabular}
+\end{center}
+
+\textbf{Instructions}
+This exam is open book and open notes. Personal calculators \textit{are} allowed. Show your work and insert your answer in the space(s) provided. \textbf{Please provide details on how you reach a result unless directed by the question as not to.}
+
+The exam totals 45 points. This exam counts for 45\% of your course grade. Please submit typed answers to the following questions as a PDF via Gradescope by \textbf{Monday, March 4, 2024 at 11:59 PM}. It would be great if you can finish the midterm by typing rather than handwriting. 
+
+\section{Performance Evaluation (8 points)}
+
+\begin{enumerate}
+    \item [\textbf{1A)}] A program P has an instruction count of 10 billion, an average CPI of 3, and runs on a processor with a clock rate of 2 GHZ. What is the execution time for program P? \\
+    \noindent\fbox
+    {%
+        \parbox{\linewidth}
+        {%
+            Execution time = Instruction Count $\times$ CPI $\times$ $\frac{1}{\text{Clock Rate}}$ \\
+            $= 10 \times 10^{9} \times 3 \times \frac{1}{2 \times 10^{9}}$\\
+            $=15$ seconds. 
+        }%
+    }
+    \item [\textbf{1B)}] We have a program with 30 billion instructions that takes 45 seconds to run on a 2GHz machine. It is given that the program consists of 25\% branch instructions, and the CPI of branch instructions is 4. What is the average CPI of the program?\\
+    \noindent\fbox
+    {%
+        \parbox{\linewidth}
+        {%
+            Borrowing equation from the above, we get:\\
+            $45 = 30 \times 10^{9} \times \text{CPI}_{\text{avg}} \times \frac{1}{2 \times 10^{9}}$ \\
+            $\text{CPI}_{\text{avg}} = 3$
+        }%
+    }
+    \item [\textbf{1C)}] We use a newly developed compiler to recompile the original program given in \textbf{1B}. The recompiled program now uses 20 billion instructions. It is still composed of 25\% branch instructions, but the CPI of the branch instructions has been reduced by a factor of 2 (CPI of the other types of instructions remains the same). What is the expected execution time speedup of the new program over the original program (on the same machine)?\\
+    \noindent\fbox
+    {%
+        \parbox{\linewidth}
+        {%
+            In the original program, \\
+            $\text{CPI}_{\text{avg}} = 3 = 0.25 \times \text{CPI}_{\text{branch}} + 0.75 \times \text{CPI}_{\text{not branch}}$\\
+            $3 = 0.25 \times 4 + 0.75 \times \text{CPI}_{\text{not branch}}$\\
+            $\text{CPI}_{\text{not branch}} = \frac{8}{3}$\\
+            Execution time = Instruction Count $\times$ CPI $\times$ $\frac{1}{\text{Clock Rate}}$  = 3 $\times$ 30 $\times$ $\frac{1}{\text{Clock Rate}}$ \\
+            In the new program, \\
+            $\text{CPI}_{\text{avg}} = 0.25 \times 2 + 0.75 \times \frac{8}{3} = 2.5$\\
+            Execution time = 2.5 $\times$ 20 $\times$ $\frac{1}{\text{Clock Rate}}$.\\\\
+            Speedup = $\frac{1 / \text{Execution Time}_{\text{new}}}{1 / \text{Execution Time}_{\text{old}}} = \frac{3 \times 30 \times \text{Clock Rate}}{2.5 \times 20 \times \text{Clock Rate}} = 1.8$\\
+            
+        }%
+    }
+\end{enumerate}
+
+\section{Cache Performance (6 points)}
+Assuming the base $CPI_{base}$ (no stall) of a pipeline is 1. A program has 25\% of load/store instructions. The processor only has one level of cache, i.e., an L1 instruction cache and an L1 data cache. Cache miss rate and penalty are as following:
+\begin{itemize}
+    \item L1 instruction cache: $\%_{miss} = 2\%, t_{miss} = 100$ cycles
+    \item L1 data cache: $\%_{miss} = 30\%, t_{miss} = 100$ cycles
+\end{itemize}
+What is the CPI?\\ \\
+\noindent\fbox
+{%
+    \parbox{\linewidth}
+    {%
+        Assuming there are 100 instructions, the number of cycles without stalling = 100 (CPI$_{\text{base}}$ = 1). \\
+        Since all 100 will have access to the L1 instruction cache, we have 2 (2\% of 100) cycles stall for every t$_{\text{miss}}$ = 100. \\
+        Out of the 100 cycles, 25 of them have access to the L1 data cache (25\% load/store instruction), from which 7.5 cycles (30\% of 25) will stall for every t$_{\text{miss}}$ = 100 cycles. \\
+        Therefore, the total number of cycles is cycles$_{\text{stalled}}$ + cycles$_{\text{not stalled}}$ = $2 \times 100 + 7.5 \times 100 + 100 = 1050$ cycles. \\
+        CPI = $\frac{\text{Total Number of Cycles}}{\text{Instruction Count}} = \frac{1050}{100} = 10.5$ 
+    }%
+}
+
+\section{Caches and Memory Hierarchy (8 points)}
+\begin{enumerate}[label=\Alph*]
+    \item Allow cache and memory to be inconsistent, i.e., write the data \textbf{only} into the cache block. Is this write-back or write through? \ul{\textit{ write-back }} (No further explanation needed)
+    
+    \item Require cache and memory to be consistent, i.e., always write the data into both the cache block and the next level in the memory hierarchy. Is this write-back or write through? \ul{\textit{write through }} (No further explanation needed)
+    
+    \item Consider the diagram below that shows the dividing line between the bits used for tag compare and those used to select the cache set. Fill in the lines indicating whether the associativity \textbf{increases} or \textbf{decreases} and whether the resulting cache has only one \textbf{way} or only one \textbf{set}. (No further explanation needed)
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[scale = 0.5]{CSE240A_Midterm.png}
+    \end{figure}
+    
+    Please fill your answers to the corresponding blanks below:\\
+    A: \ul{\textit{increases}}\\
+    B: \ul{\textit{decreases}}\\
+    C: \ul{\textit{only one set}}\\
+    D: \ul{\textit{only one way}}\\
+\end{enumerate}
+
+\section{Cache tag overhead (8 points)}
+Assume:
+\begin{itemize}
+    \item A processor has a 64KB 4-way set associative cache
+    \item The cache access uses physical addresses only
+    \item A physical address is 48 bits long 
+    \item Each block holds 64 bytes of data
+    \item Tag overhead includes the valid bit and tag bits
+\end{itemize}
+How much is the tag overhead in percent?\\ \\
+\noindent\fbox
+{%
+    \parbox{\linewidth}
+    {%
+        Number of cache blocks = $\frac{\text{Total Size}}{\text{Bytes per Block}} = \frac{64 \times 1024 (\text{to convert to bytes})}{64} = 1024$\\
+        Number of sets = $\frac{\text{Number of cache blocks}}{\text{Number of blocks per set}} = \frac{1024}{4} = 256$ \\ 
+        Index = $\log_{2} (\text{Number of sets}) = \log_{2} (256) = 8$\\
+        Offset = $\log_{2} (\text{Bytes per Block}) = \log_{2} (64) = 6$\\
+        Tag = Address Size - Index - Offset = $48 - 8 - 6 = 34$ bits. \\
+        Tag Overhead = $\frac{\text{Tag} + \text{Valid}}{\text{Total Size}} = \frac{34 + 1}{64 \times 8(\text{to convert to bits})} = 6.8\%$
+        
+        
+    }%
+}
+
+\section{Pipelining (15 points)}
+Assume the following program is running on the 5-stage in-order pipeline processor shown in class. All registers are initialized to 0. Assuming only WX and WD (register file internal forwarding) forwarding, branches are resolved in \textbf{Decode} stage, and branches are always predicted \textbf{not-taken}. How many cycles will it take to execute the program, if the branch outcome is \textbf{actually taken}? Draw a pipeline diagram (table) to show the details of your work. Use arrows to indicate forwarding.
+
+{\ttfamily
+\begin{tabbing}
+    \tab\=\tab\=\tab\=\tab\=\tab\=\kill
+    \>\> lw \$r6 0(\$r10) \\
+    \>\> lw \$r7 0(\$r11) \\
+    \>\> add \$r2 \$r6 \$r7 \\
+    \>\> beq \$r2 \$r3 label \\
+    \>\> sub \$r6 \$r8 \$r4 \\
+    \>\> sw \$r6 0(\$r10) \\
+    label:lw \$r1 0(\$r2) \\
+    \>\> or \$r4 \$r2 \$r1 \\
+\end{tabbing}
+}
+
+\begin{table}[!hbpt]
+            \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|l|l|l|}
+            \hline
+                                 & \multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{2} & \multicolumn{1}{l|}{3} & \multicolumn{1}{l|}{4} & \multicolumn{1}{l|}{5} & \multicolumn{1}{l|}{6} & \multicolumn{1}{l|}{7} & \multicolumn{1}{l|}{8} & \multicolumn{1}{l|}{9} & \multicolumn{1}{l|}{10} & \multicolumn{1}{l|}{11} & \multicolumn{1}{l|}{12} & \multicolumn{1}{l|}{13} & \multicolumn{1}{l|}{14} & \multicolumn{1}{l|}{15} & \multicolumn{1}{l|}{16} & \multicolumn{1}{l|}{17} & 18 & 19 & 20 \\ \hline
+            lw \$r6 0(\$r10) & F & D & X & M & W               &                        &                        &                        &                        &                         &                         &                         &                         &                         &                         &                         &                         &    &    &    \\ \hline
+            lw \$r7 0(\$r11) & & F & D & X  & M & W\tikzmark{l1s}                 &                        &                        &                        &                         &                         &                         &                         &                         &                         &                         &                         &    &    &    \\ \hline
+            add \$r2 \$r6 \$r7 & & & F & D & D & X  \tikzmark{l1e} & M & W\tikzmark{l2s}                        &                        &                         &                         &                         &                         &                         &                         &                         &                         &    &    &    \\ \hline
+            beq \$r2 \$r3 label & & & & F & F & D & D & D  \tikzmark{l2e} & X\tikzmark{l3s} & M & W                                              &                                                 &                         &                         &                         &                         &                         &    &    &    \\ \hline
+            sub \$r6 \$r8 \$r4 & & & &  &  &  &  & F & - & - & - & -                                                                                          &                         &                         &                         &                         &                         &    &    &    \\ \hline
+            sw \$r6 0(\$r10)       & & & &  &  &  &  &  & - & - & - & - & -                                                                                                            &                         &                         &                         &                         &    &    &    \\ \hline
+            label: lw \$r1 0(\$r2) & & & &  &  &  &  &  & F  \tikzmark{l3e} & D & X & M & W\tikzmark{l4s}                                                                                                            &                         &                         &                         &                         &    &    &    \\ \hline
+            or \$r4 \$r2 \$r1 & & & &  &  &  &  &  &  & F & D & D & X  \tikzmark{l4e} & M & W & &                         &    &    &    \\ \hline
+            \end{tabular}
+        \begin{tikzpicture}[overlay,remember picture]
+        \draw[->,blue,thick] (pic cs:l1s) -- (pic cs:l1e);
+        \draw[->,blue,thick] (pic cs:l2s) -- (pic cs:l2e);
+        \draw[->,red,thick] (pic cs:l3s) -- (pic cs:l3e);
+        \draw[->,blue,thick] (pic cs:l4s) -- (pic cs:l4e);
+        \end{tikzpicture}
+        \end{table}
+    Below, the \textcolor{blue}{$\rightarrow$} indicates forwarding, while \textcolor{red}{$\rightarrow$} indicates branch change. As shown, the program takes 15 cycles for execution. 
+
+\end{document}
+
